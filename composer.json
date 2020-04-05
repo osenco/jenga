@@ -1,0 +1,23 @@
+{
+    "name": "osenco/jenga",
+    "description": "Intuitive Mpesa SDK for PHP Apps. Just Plug 'N Play",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Osen Concepts",
+            "email": "hi@osen.co.ke"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2",
+        "guzzlehttp/guzzle": "^6.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "Osen\\Jenga": "src"
+        },
+        "files": ["src/functions.php"]
+    }
+}
