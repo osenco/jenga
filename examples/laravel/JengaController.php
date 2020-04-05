@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use Osen\Jenga\Helper;
-use Osen\Jenga\Service;
-use Osen\Jenga\Signature;
+use Osen\Finserve\Jenga;
+use Osen\Finserve\Equity;
+use Osen\Finserve\Signature;
 
 class JengaController extends Controller
 {
     public function generate_token()
     {
-        return Helper::generateToken(function ($token)
+        return Jenga::generateToken(function ($token)
         {
             # do something with token, like save in db
             return $token;
@@ -18,64 +18,64 @@ class JengaController extends Controller
 
     public function account_balance()
     {
-        return Helper::checkAccountBalance();
+        return Jenga::checkAccountBalance();
     }
 
     public function account_mini_statement()
     {
-        return Helper::generateMiniStatement();
+        return Jenga::generateMiniStatement();
     }
 
     public function account_inquiry()
     {
-        return Helper::accountInquiry();
+        return Jenga::accountInquiry();
     }
 
     public function move_money_within()
     {
-        return Helper::moveMoneyWithinEquity();
+        return Jenga::moveMoneyWithinEquity();
     }
     
     public function move_mobile_money()
     {
-        return Helper::moveMoneyToMobile();
+        return Jenga::moveMoneyToMobile();
     }
     
     public function move_rtgs_money()
     {
-        return Helper::moveMoneyViaRtgs();
+        return Jenga::moveMoneyViaRtgs();
     }
     public function move_swift_money()
     {
-        return Helper::moveMoneyViaSwift();
+        return Jenga::moveMoneyViaSwift();
     }
     public function move_eft_money()
     {
-        return Helper::moveMoneyViaEft();
+        return Jenga::moveMoneyViaEft();
     }
     
     public function move_pesalink_money_bank()
     {
-        return Helper::moveMoneyViaPesaLinkToBank();
+        return Jenga::moveMoneyViaPesaLinkToBank();
     }
     
     public function move_pesalink_money_mobile()
     {
-        return Helper::moveMoneyViaPesaLinkToMobile();
+        return Jenga::moveMoneyViaPesaLinkToMobile();
     }
 
     public function money_inquire()
     {
-        return Helper::pesaLinkInqury();
+        return Jenga::pesaLinkInqury();
     }
 
     public function check_credit_score()
     {
-        return Helper::checkCreditScore();
+        return Jenga::checkCreditScore();
     }
 
     public function get_forex_rates()
     {
-        return Helper::getForexRates();
+        return Jenga::getForexRates();
     }
 }

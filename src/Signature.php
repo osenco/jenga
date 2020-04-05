@@ -1,8 +1,8 @@
 <?php
 
-namespace Osen\Jenga;
+namespace Osen\Finserve;
 
-use Osen\Jenga\Service;
+use Osen\Finserve\Equity;
 
 class Signature
 {
@@ -11,10 +11,10 @@ class Signature
     {
         $plaintext =$sourceAccountNumber.$amount.$currencyCode.$reference;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -26,10 +26,10 @@ class Signature
     {
         $plaintext = $transferAmount.$transferCurrencyCode.$transferReference.$sourceAccountNumber;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -41,10 +41,10 @@ class Signature
     {
         $plaintext = $transferReference.$transferDate.$sourceAccountNumber.$destinationAccountNumber.$transferAmount;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -56,10 +56,10 @@ class Signature
     {
         $plaintext = $transferReference.$transferDate.$sourceAccountNumber.$destinationAccountNumber.$transferAmount;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -71,10 +71,10 @@ class Signature
     {
         $plaintext = $transferReference.$sourceAccountNumber.$destinationAccountNumber.$transferAmount.$destinationBankCode;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -86,10 +86,10 @@ class Signature
     {
         $plaintext = $transferAmount.$transferCurrencyCode.$transferReference.$destinationName.$sourceAccountNumber;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -101,10 +101,10 @@ class Signature
     {
         $plaintext = $transferAmount.$transferCurrencyCode.$transferReference.$destinationName.$sourceAccountNumber;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
@@ -116,10 +116,10 @@ class Signature
     {
         $plaintext = $dateOfBirth.$merchantCode.$documentNumber;
 
-        $fp = fopen(Service::config("private_key"), "r");
+        $fp = fopen(Equity::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "jenga");
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 
