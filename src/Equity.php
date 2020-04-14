@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\BadResponseException;
 class Equity
 {
     protected static $configs = [];
-    protected static $token = "";
+    protected static $token   = "";
 
     public static function init(array $config = [], $token = null)
     {
@@ -17,10 +17,11 @@ class Equity
             : "https://sandbox.jengahq.io/";
 
         $defaults = array(
-            "endpoint" => $endpoint,
-            "username" => "",
-            "password" => "",
-            "key" => ""
+            "endpoint"    => $endpoint,
+            "username"    => "",
+            "password"    => "",
+            "key"         => "",
+            "private_key" => __DIR__ . "/privatekey.pem",
         );
 
         self::$configs = array_merge($defaults, $config);
@@ -43,25 +44,25 @@ class Equity
     //method to generate finserve APi token
     public static function generateToken(callable $callback = null)
     {
-        $baseUrl = self::config("endpoint");
+        $baseUrl  = self::config("endpoint");
         $password = self::config("password");
         $username = self::config("username");
-        $key = self::config("key");
+        $key      = self::config("key");
 
         $requestBody = [
             "username" => $username,
-            "password" => $password
+            "password" => $password,
         ];
 
         $client = new Client();
 
         try {
             $response = $client->post($baseUrl . "identity/v2/token", [
-                "headers" => [
+                "headers"     => [
                     "Authorization" => "Basic {$key}",
-                    "Content-Type" => "application/x-www-form-urlencoded",
+                    "Content-Type"  => "application/x-www-form-urlencoded",
                 ],
-                "form_params" => $requestBody
+                "form_params" => $requestBody,
 
             ]);
 
@@ -86,18 +87,18 @@ class Equity
     //post to end point for requests
     public static function remotePost($endpoint, $requestBody, $signature)
     {
-        $client = new Client();
+        $client  = new Client();
         $baseUrl = self::config("endpoint");
-        $token = self::$token;
+        $token   = self::$token;
 
         try {
             $response = $client->post($baseUrl . $endpoint, [
                 "headers" => [
                     "Authorization" => "Bearer {$token}",
-                    "Content-Type" => "application/json",
-                    "signature" =>  base64_encode($signature)
+                    "Content-Type"  => "application/json",
+                    "signature"     => base64_encode($signature),
                 ],
-                "json" => $requestBody
+                "json"    => $requestBody,
             ]);
 
             return json_decode((string) $response->getBody(), true);
@@ -108,16 +109,16 @@ class Equity
 
     public static function remoteGet($endpoint, $signature)
     {
-        $client = new Client();
+        $client  = new Client();
         $baseUrl = self::config("endpoint");
-        $token = self::$token;
+        $token   = self::$token;
         try {
             $response = $client->get($baseUrl . $endpoint, [
                 "headers" => [
                     "Authorization" => "Bearer {$token}",
-                    "Content-Type" => "application/json",
-                    "signature" => base64_encode($signature)
-                ]
+                    "Content-Type"  => "application/json",
+                    "signature"     => base64_encode($signature),
+                ],
             ]);
 
             return json_decode((string) $response->getBody(), true);
@@ -129,17 +130,17 @@ class Equity
     //specific method for the Send Money Inquiry
     public static function postInquiry($endpoint, $requestBody)
     {
-        $client = new Client();
+        $client  = new Client();
         $baseUrl = self::config("endpoint");
-        $token = self::$token;
+        $token   = self::$token;
 
         try {
             $response = $client->post($baseUrl . $endpoint, [
                 "headers" => [
                     "Authorization" => "Bearer {$token}",
-                    "Content-Type" => "application/json",
+                    "Content-Type"  => "application/json",
                 ],
-                "json" => $requestBody
+                "json"    => $requestBody,
             ]);
 
             return json_decode((string) $response->getBody(), true);
@@ -163,7 +164,7 @@ class Equity
     {
         $plaintext = $sourceAccountNumber . $amount . $currencyCode . $reference;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -178,7 +179,7 @@ class Equity
     {
         $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $sourceAccountNumber;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -193,7 +194,7 @@ class Equity
     {
         $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -208,7 +209,7 @@ class Equity
     {
         $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -223,7 +224,7 @@ class Equity
     {
         $plaintext = $transferReference . $sourceAccountNumber . $destinationAccountNumber . $transferAmount . $destinationBankCode;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -238,7 +239,7 @@ class Equity
     {
         $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $destinationName . $sourceAccountNumber;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -253,7 +254,7 @@ class Equity
     {
         $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $destinationName . $sourceAccountNumber;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -267,7 +268,7 @@ class Equity
     {
         $plaintext = $countryCode . $accountNo;
 
-        $fp = fopen(parent::config("private_key"), "r");
+        $fp       = fopen(parent::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");
@@ -282,7 +283,7 @@ class Equity
     {
         $plaintext = $dateOfBirth . $merchantCode . $documentNumber;
 
-        $fp = fopen(self::config("private_key"), "r");
+        $fp       = fopen(self::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");

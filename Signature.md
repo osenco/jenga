@@ -15,18 +15,22 @@ Use following command in command prompt to generate a keypair with a self-signed
 In this command, we are using the openssl. You can use other tools e.g. keytool (ships with JDK - Java Developement Kit), keystore explorer e.t.c
 
 ### GENERATE YOUR KEY PAIR
+```cmd
 openssl genrsa -out privatekey.pem 2048 -nodes
+```
 
-Once you are successful with the above command a file (privatekey.pem) will be created on your present directory, proceed to export the public key from the keypair generated. The command below shows how to do it.
+Once you are successful with the above command a file (`privatekey.pem`) will be created on your present directory, proceed to export the public key from the keypair generated. The command below shows how to do it.
 
 ### NOW EXPORT YOUR PUBLIC KEY
+```cmd
 openssl rsa -in privatekey.pem -outform PEM -pubout -out publickey.pem
+```
 
-If the above command is successful, a new file (publickey.pem) will be created on your present directory. Copy the contents of this file and add it on our jengaHQ portal. Make sure to copy only the contents of the keyblock and paste as is.
+If the above command is successful, a new file (`publickey.pem`) will be created on your present directory. Copy the contents of this file and add it on our jengaHQ portal. Make sure to copy only the contents of the keyblock and paste as is.
 
 ## The Generated Key Files
 
-The privatekey.pem file looks something like this:
+The `privatekey.pem` file looks something like this:
 
 ### Example Private Key
 ```

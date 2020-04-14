@@ -42,22 +42,21 @@ class Jenga extends Equity
         return $response;
     }
 
-
     // Functional Methods
 
     //move money within equity account
     public static function moveMoneyWithinEquity($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
+        $endpoint = "transaction/v2/remittance";
 
-        $sourceAccountNo = $data["source"]["accountNumber"];
-        $transferAmount = $data["transfer"]["amount"];
+        $sourceAccountNo      = $data["source"]["accountNumber"];
+        $transferAmount       = $data["transfer"]["amount"];
         $transferCurrencyCode = $data["transfer"]["currencyCode"];
-        $transferReference = $data["transfer"]["reference"];
+        $transferReference    = $data["transfer"]["reference"];
 
         $signature = parent::signInternalTransfer($sourceAccountNo, $transferAmount, $transferCurrencyCode, $transferReference);
 
-        $response  = parent::remotePost($endpoint, $data, $signature);
+        $response = parent::remotePost($endpoint, $data, $signature);
 
         return $response;
     }
@@ -65,11 +64,11 @@ class Jenga extends Equity
     //move money to mobile wallet
     public static function moveMoneyToMobile($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
-        $transferAmount = $data["transfer"]["amount"];
+        $endpoint             = "transaction/v2/remittance";
+        $transferAmount       = $data["transfer"]["amount"];
         $transferCurrencyCode = $data["transfer"]["currencyCode"];
-        $transferReference = $data["transfer"]["reference"];
-        $sourceAccount = $data["source"]["accountNumber"];
+        $transferReference    = $data["transfer"]["reference"];
+        $sourceAccount        = $data["source"]["accountNumber"];
 
         //generate the signature
         $signature = parent::signMobileWalletTransfer($transferAmount, $transferCurrencyCode, $transferReference, $sourceAccount);
@@ -82,12 +81,12 @@ class Jenga extends Equity
     //move money via RTGS
     public static function moveMoneyViaRTGS($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
-        $transferReference = $data["transfer"]["reference"];
-        $transferDate = $data["transfer"]["date"];
-        $sourceAccount = $data["source"]["accountNumber"];
+        $endpoint           = "transaction/v2/remittance";
+        $transferReference  = $data["transfer"]["reference"];
+        $transferDate       = $data["transfer"]["date"];
+        $sourceAccount      = $data["source"]["accountNumber"];
         $destinationAccount = $data["destination"]["accountNumber"];
-        $transferAmount = $data["transfer"]["amount"];
+        $transferAmount     = $data["transfer"]["amount"];
 
         $signature = parent::signRTGSMoneyTransfer($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
 
@@ -99,12 +98,12 @@ class Jenga extends Equity
     //move money via SWIFT
     public static function moveMoneyViaSWIFT($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
-        $transferReference = $data["transfer"]["reference"];
-        $transferDate = $data["transfer"]["date"];
-        $sourceAccount = $data["source"]["accountNumber"];
+        $endpoint           = "transaction/v2/remittance";
+        $transferReference  = $data["transfer"]["reference"];
+        $transferDate       = $data["transfer"]["date"];
+        $sourceAccount      = $data["source"]["accountNumber"];
         $destinationAccount = $data["destination"]["accountNumber"];
-        $transferAmount = $data["transfer"]["amount"];
+        $transferAmount     = $data["transfer"]["amount"];
 
         $signature = parent::signSWIFTMoneyTransfer($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
 
@@ -116,12 +115,12 @@ class Jenga extends Equity
     //move money via EFT
     public static function moveMoneyViaEFT($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
+        $endpoint = "transaction/v2/remittance";
 
-        $transferReference = $data["transfer"]["reference"];
-        $sourceAccount = $data["source"]["accountNumber"];
-        $destinationAccount = $data["destination"]["accountNumber"];
-        $transferAmount = $data["transfer"]["amount"];
+        $transferReference   = $data["transfer"]["reference"];
+        $sourceAccount       = $data["source"]["accountNumber"];
+        $destinationAccount  = $data["destination"]["accountNumber"];
+        $transferAmount      = $data["transfer"]["amount"];
         $destinationBankCode = $data["destination"]["bankCode"];
 
         $signature = parent::signEFTMoneyTransfer($transferReference, $sourceAccount, $destinationAccount, $transferAmount, $destinationBankCode);
@@ -134,13 +133,13 @@ class Jenga extends Equity
     //method to move money via pesalink to a bank account
     public static function moveMoneyViaPesaLinkToBank($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
+        $endpoint = "transaction/v2/remittance";
 
-        $transferAmount = $data["transfer"]["amount"];
+        $transferAmount       = $data["transfer"]["amount"];
         $transferCurrencyCode = $data["transfer"]["currencyCode"];
-        $transferReference = $data["transfer"]["reference"];
-        $destinationName = $data["destination"]["name"];
-        $sourceAccount = $data["source"]["accountNumber"];
+        $transferReference    = $data["transfer"]["reference"];
+        $destinationName      = $data["destination"]["name"];
+        $sourceAccount        = $data["source"]["accountNumber"];
 
         $signature = parent::signPesalinkToBankMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
 
@@ -152,13 +151,13 @@ class Jenga extends Equity
     //method to move money via pesalink to a mobile account
     public static function moveMoneyViaPesaLinkToMobile($data = [])
     {
-        $endpoint =  "transaction/v2/remittance";
+        $endpoint = "transaction/v2/remittance";
 
-        $transferAmount = $data["transfer"]["amount"];
+        $transferAmount       = $data["transfer"]["amount"];
         $transferCurrencyCode = $data["transfer"]["currencyCode"];
-        $transferReference = $data["transfer"]["reference"];
-        $destinationName = $data["destination"]["name"];
-        $sourceAccount = $data["source"]["accountNumber"];
+        $transferReference    = $data["transfer"]["reference"];
+        $destinationName      = $data["destination"]["name"];
+        $sourceAccount        = $data["source"]["accountNumber"];
 
         $signature = parent::signPesalinkToMobileMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
 
@@ -170,10 +169,10 @@ class Jenga extends Equity
     //method to query pesalink account
     public static function pesaLinkInqury($phone = null)
     {
-        $endpoint =  "transaction/v2/pesalink/inquire";
+        $endpoint = "transaction/v2/pesalink/inquire";
 
         $data = array(
-            "mobileNumber" => $phone
+            "mobileNumber" => $phone,
         );
 
         $response = parent::postInquiry($endpoint, $data);
@@ -186,8 +185,8 @@ class Jenga extends Equity
     {
         $endpoint = "customer/v2/creditinfo";
 
-        $dateOfBirth = $data["customer"][0]["dateOfBirth"];
-        $merchantCode = parent::config("merchantCode");
+        $dateOfBirth    = $data["customer"][0]["dateOfBirth"];
+        $merchantCode   = parent::config("merchantCode");
         $documentNumber = $data["customer"][0]["identityDocument"]["documentNumber"];
 
         $signature = parent::signCreditScore($dateOfBirth, $merchantCode, $documentNumber);
@@ -197,15 +196,14 @@ class Jenga extends Equity
         return $response;
     }
 
-
     //get forex rates
     public static function getForexRates($countryCode = 'KE', $currencyCode = 'KES')
     {
         $endpoint = "transaction/v2/foreignexchangerates";
 
         $data = array(
-            "countryCode" => $countryCode,
-            "currencyCode" => $currencyCode
+            "countryCode"  => $countryCode,
+            "currencyCode" => $currencyCode,
         );
 
         $response = parent::postInquiry($endpoint, $data);
