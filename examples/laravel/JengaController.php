@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Osen\Finserve\Jenga;
-use Osen\Finserve\Equity;
-use Osen\Finserve\Signature;
 
 class JengaController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-function setup_finserve($config)
+function setup_jenga($config)
 {
-    return \Osen\Finserve\Equity::init($config);
+    return \Osen\Finserve\Jenga::init($config);
 }
