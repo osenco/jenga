@@ -15,8 +15,8 @@
         "guzzlehttp/guzzle": "^6.5"
     },
     "autoload": {
-        "psr-0": {
-            "Osen\\Jenga": "src"
+        "psr-4": {
+            "Osen\\Finserve\\": "src"
         },
         "files": ["src/functions.php"]
     }

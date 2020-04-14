@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Osen\Finserve\Jenga;
@@ -9,8 +10,7 @@ class JengaController extends Controller
 {
     public function generate_token()
     {
-        return Jenga::generateToken(function ($token)
-        {
+        return Jenga::generateToken(function ($token) {
             # do something with token, like save in db
             return $token;
         });
@@ -35,16 +35,17 @@ class JengaController extends Controller
     {
         return Jenga::moveMoneyWithinEquity();
     }
-    
+
     public function move_mobile_money()
     {
         return Jenga::moveMoneyToMobile();
     }
-    
+
     public function move_rtgs_money()
     {
         return Jenga::moveMoneyViaRtgs();
     }
+
     public function move_swift_money()
     {
         return Jenga::moveMoneyViaSwift();
@@ -53,12 +54,12 @@ class JengaController extends Controller
     {
         return Jenga::moveMoneyViaEft();
     }
-    
+
     public function move_pesalink_money_bank()
     {
         return Jenga::moveMoneyViaPesaLinkToBank();
     }
-    
+
     public function move_pesalink_money_mobile()
     {
         return Jenga::moveMoneyViaPesaLinkToMobile();

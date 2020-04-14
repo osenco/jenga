@@ -26,7 +26,7 @@ class Equity
         }
     }
 
-    public function setToken($token)
+    public static function setToken($token)
     {
         self::$token = $token;
     }
