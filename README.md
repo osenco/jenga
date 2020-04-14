@@ -41,52 +41,52 @@ Jenga::generateMiniStatement();
 Jenga::accountInquiry();
 ```
 
-### move money within Equity
+### Move Money within Equity Bank
 ```php
 Jenga::moveMoneyWithinEquity();
 ```
 
-### move mobile money
+### Move mobile Money
 ```php
 Jenga::moveMoneyToMobile();
 ```
 
-### move rtgs money
+### Move RTGS Money
 ```php
 Jenga::moveMoneyViaRtgs();
 ```
 
-### move swift money
+### Move SWIFT Money
 ```php
 Jenga::moveMoneyViaSwift();
 ```
 
-### move eft money
+### Move EFT Money
 ```php
 Jenga::moveMoneyViaEft();
 ```
 
-### move pesalink money bank
+### Move PesaLink Money to Bank
 ```php
 Jenga::moveMoneyViaPesaLinkToBank();
 ```
 
-### move pesalink money mobile
+### Move PesaLink to Mobile Money
 ```php
 Jenga::moveMoneyViaPesaLinkToMobile();
 ```
 
-### money inquire
+### PesaLink Inquiry
 ```php
 Jenga::pesaLinkInqury();
 ```
 
-### check credit score
+### Check Credit Score
 ```php
 Jenga::checkCreditScore();
 ```
 
-### get forex rates
+### Get Forex Rates
 ```php
 Jenga::getForexRates();
 ```
