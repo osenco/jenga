@@ -12,8 +12,12 @@ class Equity
 
     public static function init(array $config = [], $token = null)
     {
+        $endpoint = (isset($config['env']) && ($config['env'] == 'live'))
+            ? "https://jengahq.io/"
+            : "https://sandbox.jengahq.io/";
+
         $defaults = array(
-            "endpoint" => "",
+            "endpoint" => $endpoint,
             "username" => "",
             "password" => "",
             "key" => ""
