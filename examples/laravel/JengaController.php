@@ -14,67 +14,67 @@ class JengaController extends Controller
         });
     }
 
-    public function account_balance()
+    public function account_balance($accountId = null)
     {
-        return Jenga::checkAccountBalance();
+        return Jenga::checkAccountBalance($accountId);
     }
 
-    public function account_mini_statement()
+    public function account_mini_statement($accountId = null)
     {
-        return Jenga::generateMiniStatement();
+        return Jenga::generateMiniStatement($accountId);
     }
 
-    public function account_inquiry()
+    public function account_inquiry($accountId = null)
     {
-        return Jenga::accountInquiry();
+        return Jenga::accountInquiry($accountId);
     }
 
-    public function move_money_within()
+    public function move_money_within($data = [])
     {
-        return Jenga::moveMoneyWithinEquity();
+        return Jenga::moveMoneyWithinEquity($data);
     }
 
-    public function move_mobile_money()
+    public function move_mobile_money($data = [])
     {
-        return Jenga::moveMoneyToMobile();
+        return Jenga::moveMoneyToMobile($data);
     }
 
-    public function move_rtgs_money()
+    public function move_rtgs_money($data = [])
     {
-        return Jenga::moveMoneyViaRtgs();
+        return Jenga::moveMoneyViaRTGS($data);
     }
 
-    public function move_swift_money()
+    public function move_swift_money($data = [])
     {
-        return Jenga::moveMoneyViaSwift();
+        return Jenga::moveMoneyViaSWIFT($data);
     }
-    public function move_eft_money()
+    public function move_eft_money($data = [])
     {
-        return Jenga::moveMoneyViaEft();
-    }
-
-    public function move_pesalink_money_bank()
-    {
-        return Jenga::moveMoneyViaPesaLinkToBank();
+        return Jenga::moveMoneyViaEFT($data);
     }
 
-    public function move_pesalink_money_mobile()
+    public function move_pesalink_money_bank($data = [])
     {
-        return Jenga::moveMoneyViaPesaLinkToMobile();
+        return Jenga::moveMoneyViaPesaLinkToBank($data);
     }
 
-    public function money_inquire()
+    public function move_pesalink_money_mobile($data = [])
     {
-        return Jenga::pesaLinkInqury();
+        return Jenga::moveMoneyViaPesaLinkToMobile($data);
     }
 
-    public function check_credit_score()
+    public function inquire_pesalink($phone)
     {
-        return Jenga::checkCreditScore();
+        return Jenga::pesaLinkInqury($phone);
     }
 
-    public function get_forex_rates()
+    public function check_credit_score($data = [])
     {
-        return Jenga::getForexRates();
+        return Jenga::checkCreditScore($data);
+    }
+
+    public function get_forex_rates($countryCode = 'KE', $currencyCode = 'KES')
+    {
+        return Jenga::getForexRates($countryCode, $currencyCode);
     }
 }

@@ -80,14 +80,14 @@ class Equity
     }
 
     //post to end point for requests
-    public static function remotePost($endurl, $requestBody, $signature)
+    public static function remotePost($endpoint, $requestBody, $signature)
     {
         $client = new Client();
         $baseUrl = self::config("endpoint");
         $token = self::$token;
 
         try {
-            $response = $client->post($baseUrl . $endurl, [
+            $response = $client->post($baseUrl . $endpoint, [
                 "headers" => [
                     "Authorization" => "Bearer {$token}",
                     "Content-Type" => "application/json",
@@ -123,14 +123,14 @@ class Equity
     }
 
     //specific method for the Send Money Inquiry
-    public static function postInquiry($endurl, $requestBody)
+    public static function postInquiry($endpoint, $requestBody)
     {
         $client = new Client();
         $baseUrl = self::config("endpoint");
         $token = self::$token;
 
         try {
-            $response = $client->post($baseUrl . $endurl, [
+            $response = $client->post($baseUrl . $endpoint, [
                 "headers" => [
                     "Authorization" => "Bearer {$token}",
                     "Content-Type" => "application/json",
@@ -184,8 +184,8 @@ class Equity
         return $signature;
     }
 
-    //generate signature for rtgs transfer of funds
-    public static function signRtgsMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
+    //generate signature for RTGS transfer of funds
+    public static function signRTGSMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
     {
         $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
 
@@ -199,8 +199,8 @@ class Equity
         return $signature;
     }
 
-    //generate signature for swift transfer of funds
-    public static function signSwiftMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
+    //generate signature for SWIFT transfer of funds
+    public static function signSWIFTMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
     {
         $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
 
@@ -214,8 +214,8 @@ class Equity
         return $signature;
     }
 
-    //generate signature for eft money transfer
-    public static function signEftMoneyTransfer($transferReference, $sourceAccountNumber, $destinationAccountNumber, $transferAmount, $destinationBankCode)
+    //generate signature for EFT money transfer
+    public static function signEFTMoneyTransfer($transferReference, $sourceAccountNumber, $destinationAccountNumber, $transferAmount, $destinationBankCode)
     {
         $plaintext = $transferReference . $sourceAccountNumber . $destinationAccountNumber . $transferAmount . $destinationBankCode;
 
@@ -250,6 +250,20 @@ class Equity
         $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $destinationName . $sourceAccountNumber;
 
         $fp = fopen(self::config("private_key"), "r");
+        $priv_key = fread($fp, 8192);
+        fclose($fp);
+        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
+
+        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
+
+        return $signature;
+    }
+
+    public static function signAccountBalance($countryCode, $accountNo)
+    {
+        $plaintext = $countryCode . $accountNo;
+
+        $fp = fopen(parent::config("private_key"), "r");
         $priv_key = fread($fp, 8192);
         fclose($fp);
         $pkeyid = openssl_get_privatekey($priv_key, "finserve");

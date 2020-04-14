@@ -12,8 +12,8 @@ composer require osenco/jenga
 use Osen\Finserve\Jenga;
 
 Jenga::init([
-    "password" => "",
     "username" => "",
+    "password" => "",
     "key" => ""
 ]);
 ```
@@ -28,65 +28,65 @@ Jenga::generateToken(function ($token) {
 
 ### Check Account Balance
 ```php
-Jenga::checkAccountBalance();
+Jenga::checkAccountBalance($accountId);
 ```
 
 ### Generate Mini Statement
 ```php
-Jenga::generateMiniStatement();
+Jenga::generateMiniStatement($accountId);
 ```
 
 ### Account Inquiry
 ```php
-Jenga::accountInquiry();
+Jenga::accountInquiry($accountId);
 ```
 
 ### Move Money within Equity Bank
 ```php
-Jenga::moveMoneyWithinEquity();
+Jenga::moveMoneyWithinEquity($data);
 ```
 
 ### Move mobile Money
 ```php
-Jenga::moveMoneyToMobile();
+Jenga::moveMoneyToMobile($data);
 ```
 
 ### Move RTGS Money
 ```php
-Jenga::moveMoneyViaRtgs();
+Jenga::moveMoneyViaRTGS($data);
 ```
 
 ### Move SWIFT Money
 ```php
-Jenga::moveMoneyViaSwift();
+Jenga::moveMoneyViaSWIFT($data);
 ```
 
 ### Move EFT Money
 ```php
-Jenga::moveMoneyViaEft();
+Jenga::moveMoneyViaEFT($data);
 ```
 
 ### Move PesaLink Money to Bank
 ```php
-Jenga::moveMoneyViaPesaLinkToBank();
+Jenga::moveMoneyViaPesaLinkToBank($data);
 ```
 
 ### Move PesaLink to Mobile Money
 ```php
-Jenga::moveMoneyViaPesaLinkToMobile();
+Jenga::moveMoneyViaPesaLinkToMobile($data);
 ```
 
 ### PesaLink Inquiry
 ```php
-Jenga::pesaLinkInqury();
+Jenga::pesaLinkInqury($phone);
 ```
 
 ### Check Credit Score
 ```php
-Jenga::checkCreditScore();
+Jenga::checkCreditScore($data);
 ```
 
 ### Get Forex Rates
 ```php
-Jenga::getForexRates();
+Jenga::getForexRates($countryCode, $currencyCode);
 ```
