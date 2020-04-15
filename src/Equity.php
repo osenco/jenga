@@ -13,7 +13,7 @@ class Equity
     public static function init(array $config = [], $token = null)
     {
         $endpoint = (isset($config['env']) && ($config['env'] == 'live'))
-            ? "https://jengahq.io/"
+            ? "https://uat.jengahq.io/"
             : "https://sandbox.jengahq.io/";
 
         $defaults = array(
@@ -21,7 +21,7 @@ class Equity
             "username"    => "",
             "password"    => "",
             "key"         => "",
-            "private_key" => __DIR__ . "/privatekey.pem",
+            "private_key" => "file://".__DIR__ . "/privatekey.pem",
         );
 
         self::$configs = array_merge($defaults, $config);
@@ -38,7 +38,7 @@ class Equity
 
     public static function config(string $key = null)
     {
-        return self::$configs[$key];
+        return is_null($key) ? self::$configs : self::$configs[$key];
     }
 
     //method to generate finserve APi token
@@ -149,144 +149,12 @@ class Equity
         }
     }
 
-    public static function getInput(string $key = null, $data = null)
-    {
-        if (is_null($key)) {
-            return is_null($data) ? $_REQUEST : $data;
-        } else {
-            return is_null($data) ? $_REQUEST[$key] : $data[$key];
-        }
-    }
-
-    // SIGNATURES - @todo Move to another class
     //generate signature fo internaltransfers
-    public static function signInternalTransfer($sourceAccountNumber, $amount, $currencyCode, $reference)
+    public static function signTransaction()
     {
-        $plaintext = $sourceAccountNumber . $amount . $currencyCode . $reference;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for the Mobile Wallets transfers i.e Airtel and Safaricom
-    public static function signMobileWalletTransfer($transferAmount, $transferCurrencyCode, $transferReference, $sourceAccountNumber)
-    {
-        $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $sourceAccountNumber;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for RTGS transfer of funds
-    public static function signRTGSMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
-    {
-        $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for SWIFT transfer of funds
-    public static function signSWIFTMoneyTransfer($transferReference, $transferDate, $sourceAccountNumber, $destinationAccountNumber, $transferAmount)
-    {
-        $plaintext = $transferReference . $transferDate . $sourceAccountNumber . $destinationAccountNumber . $transferAmount;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for EFT money transfer
-    public static function signEFTMoneyTransfer($transferReference, $sourceAccountNumber, $destinationAccountNumber, $transferAmount, $destinationBankCode)
-    {
-        $plaintext = $transferReference . $sourceAccountNumber . $destinationAccountNumber . $transferAmount . $destinationBankCode;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for pesalink to bank account
-    public static function signPesalinkToBankMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccountNumber)
-    {
-        $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $destinationName . $sourceAccountNumber;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature for pesalink to mobile account
-    public static function signPesalinkToMobileMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccountNumber)
-    {
-        $plaintext = $transferAmount . $transferCurrencyCode . $transferReference . $destinationName . $sourceAccountNumber;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    public static function signAccountBalance($countryCode, $accountNo)
-    {
-        $plaintext = $countryCode . $accountNo;
-
-        $fp       = fopen(parent::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
-
-        openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
-
-        return $signature;
-    }
-
-    //generate signature fro credit score
-    public static function signCreditScore($dateOfBirth, $merchantCode, $documentNumber)
-    {
-        $plaintext = $dateOfBirth . $merchantCode . $documentNumber;
-
-        $fp       = fopen(self::config("private_key"), "r");
-        $priv_key = fread($fp, 8192);
-        fclose($fp);
-        $pkeyid = openssl_get_privatekey($priv_key, "finserve");
+        $plaintext = implode("", func_get_args());
+        $priv_key = self::config("private_key");
+        $pkeyid = openssl_pkey_get_private($priv_key);
 
         openssl_sign($plaintext, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
 

@@ -54,7 +54,7 @@ class Jenga extends Equity
         $transferCurrencyCode = $data["transfer"]["currencyCode"];
         $transferReference    = $data["transfer"]["reference"];
 
-        $signature = parent::signInternalTransfer($sourceAccountNo, $transferAmount, $transferCurrencyCode, $transferReference);
+        $signature = parent::signTransaction($sourceAccountNo, $transferAmount, $transferCurrencyCode, $transferReference);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -71,7 +71,7 @@ class Jenga extends Equity
         $sourceAccount        = $data["source"]["accountNumber"];
 
         //generate the signature
-        $signature = parent::signMobileWalletTransfer($transferAmount, $transferCurrencyCode, $transferReference, $sourceAccount);
+        $signature = parent::signTransaction($transferAmount, $transferCurrencyCode, $transferReference, $sourceAccount);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -88,7 +88,7 @@ class Jenga extends Equity
         $destinationAccount = $data["destination"]["accountNumber"];
         $transferAmount     = $data["transfer"]["amount"];
 
-        $signature = parent::signRTGSMoneyTransfer($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
+        $signature = parent::signTransaction($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -105,7 +105,7 @@ class Jenga extends Equity
         $destinationAccount = $data["destination"]["accountNumber"];
         $transferAmount     = $data["transfer"]["amount"];
 
-        $signature = parent::signSWIFTMoneyTransfer($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
+        $signature = parent::signTransaction($transferReference, $transferDate, $sourceAccount, $destinationAccount, $transferAmount);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -123,7 +123,7 @@ class Jenga extends Equity
         $transferAmount      = $data["transfer"]["amount"];
         $destinationBankCode = $data["destination"]["bankCode"];
 
-        $signature = parent::signEFTMoneyTransfer($transferReference, $sourceAccount, $destinationAccount, $transferAmount, $destinationBankCode);
+        $signature = parent::signTransaction($transferReference, $sourceAccount, $destinationAccount, $transferAmount, $destinationBankCode);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -141,7 +141,7 @@ class Jenga extends Equity
         $destinationName      = $data["destination"]["name"];
         $sourceAccount        = $data["source"]["accountNumber"];
 
-        $signature = parent::signPesalinkToBankMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
+        $signature = parent::signTransaction($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -159,7 +159,7 @@ class Jenga extends Equity
         $destinationName      = $data["destination"]["name"];
         $sourceAccount        = $data["source"]["accountNumber"];
 
-        $signature = parent::signPesalinkToMobileMoneyTransfer($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
+        $signature = parent::signTransaction($transferAmount, $transferCurrencyCode, $transferReference, $destinationName, $sourceAccount);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
@@ -189,7 +189,7 @@ class Jenga extends Equity
         $merchantCode   = parent::config("merchantCode");
         $documentNumber = $data["customer"][0]["identityDocument"]["documentNumber"];
 
-        $signature = parent::signCreditScore($dateOfBirth, $merchantCode, $documentNumber);
+        $signature = parent::signTransaction($dateOfBirth, $merchantCode, $documentNumber);
 
         $response = parent::remotePost($endpoint, $data, $signature);
 
